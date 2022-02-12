@@ -5,16 +5,14 @@ import dao.SpaceMarineDAO;
 import exceptions.WrongRequestException;
 import model.Chapter;
 import model.SpaceMarine;
+import model.SpaceShip;
 import model.Weapon;
 import model.xmlLists.Marines;
 import model.xmlLists.Messages;
 import service.dto.ChapterInGroupElementDto;
-import service.dto.FiltrationParams;
 import service.dto.GetAllMethodParams;
 import service.dto.PageDto;
-import service.dto.SortingParams;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,9 +37,14 @@ public class SpaceMarineService {
 
         List<SpaceMarine> spaceMarines = spaceMarineDao.getAllSpaceMarines();
 
-        spaceMarines = filterService.handleFiltration(spaceMarines, params.getFiltrationParams());
-        spaceMarines = sortService.handleSorting(spaceMarines, params.getSortingParams());
-        final PageDto page = paginationService.handlePagination(spaceMarines, params.getPaginationParams());
+        PageDto page;
+        if (spaceMarines == null) {
+            page = PageDto.getEmptyPage();
+        } else {
+            spaceMarines = filterService.handleFiltration(spaceMarines, params.getFiltrationParams());
+            spaceMarines = sortService.handleSorting(spaceMarines, params.getSortingParams());
+            page = paginationService.handlePagination(spaceMarines, params.getPaginationParams());
+        }
 
         final Marines marines = new Marines();
         marines.setMarines(page.getMarines());
@@ -91,6 +94,12 @@ public class SpaceMarineService {
         }
 
 
+        if (spaceMarine.getShip() != null && spaceMarine.getShip().getId() != null) {
+            final Optional<SpaceShip> spaceShip = spaceMarineDao.getSpaceShip(spaceMarine.getShip().getId());
+            Messages messages = new Messages();
+            messages.addNewMessage("Не существует корабля с указанным id");
+            spaceShip.orElseThrow(() -> new WrongRequestException(messages));
+        }
         final Optional<SpaceMarine> spaceMarineFromDb = spaceMarineDao.getSpaceMarine(spaceMarine.getId());
 
         if (spaceMarineFromDb.isPresent()) {
@@ -119,12 +128,22 @@ public class SpaceMarineService {
     }
 
     public boolean delete(Long id) {
-        return spaceMarineDao.deleteSpaceMarine(id);
+        //не самое лучшее решение, но spaceMarineDao.deleteSpaceMarine(id) падает если нет id, а не возвращает false
+        //почему не ясно и времени разбираться нет(
+        if (spaceMarineDao.getSpaceMarine(id).isPresent()) {
+            return spaceMarineDao.deleteSpaceMarine(id);
+        }
+
+        return false;
     }
 
     public List<ChapterInGroupElementDto> getChaptersInGroup() {
-        return chapterDAO.getAll().stream()
-            .map(el -> new ChapterInGroupElementDto(el, el.getMarinesCount()))
+        final Map<Chapter, List<SpaceMarine>> groupedMarines = spaceMarineDao.getAllSpaceMarines().stream()
+            .filter(marine -> marine.getChapter() != null)
+            .collect(Collectors.groupingBy(SpaceMarine::getChapter));
+
+        return groupedMarines.entrySet().stream()
+            .map(el -> new ChapterInGroupElementDto(el.getKey(), el.getValue().size()))
             .collect(Collectors.toList());
     }
 

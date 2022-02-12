@@ -3,6 +3,7 @@ package util;
 import model.Chapter;
 import model.Coordinates;
 import model.SpaceMarine;
+import model.SpaceShip;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -22,12 +23,12 @@ public class HibernateUtil {
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "org.postgresql.Driver");
-//                settings.put(Environment.URL, "jdbc:postgresql://localhost:5432/soa");
-                settings.put(Environment.URL, "jdbc:postgresql://pg:5432/studs");
-                settings.put(Environment.USER, "s251809");
-//                settings.put(Environment.USER, "postgres");
-//                settings.put(Environment.PASS, "1");
-                settings.put(Environment.PASS, "hgm179");
+                settings.put(Environment.URL, "jdbc:postgresql://localhost:5432/soa");
+//                settings.put(Environment.URL, "jdbc:postgresql://pg:5432/studs");
+//                settings.put(Environment.USER, "s251809");
+                settings.put(Environment.USER, "postgres");
+                settings.put(Environment.PASS, "1");
+//                settings.put(Environment.PASS, "hgm179");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.PostgreSQLDialect");
 
                 settings.put(Environment.SHOW_SQL, "true");
@@ -37,6 +38,7 @@ public class HibernateUtil {
 
                 configuration.setProperties(settings);
 
+                configuration.addAnnotatedClass(SpaceShip.class);
                 configuration.addAnnotatedClass(SpaceMarine.class);
                 configuration.addAnnotatedClass(Coordinates.class);
                 configuration.addAnnotatedClass(Chapter.class);

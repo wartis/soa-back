@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import model.SpaceMarine;
 
+import java.util.Collections;
 import java.util.List;
 
 @Setter
@@ -14,6 +15,13 @@ public class PageDto {
     private final int totalPages;
     private final int curPage;
     private final int pageSize;
+
+
+
+    public static PageDto getEmptyPage() {
+        PageDto pageDto = new PageDto(Collections.emptyList(), 0, 0, 0);
+        return pageDto;
+    }
 
     public PageDto(List<SpaceMarine> marines, int totalRecords, int curPage, int pageSize) {
         this.marines = marines;

@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "spacemarine")
+@XmlRootElement(name = "SpaceMarine")
 
 @Getter
 @Setter
@@ -77,6 +77,10 @@ public class SpaceMarine {
     @Enumerated(EnumType.STRING)
     @Column(name = "melee_weapon")
     private MeleeWeapon meleeWeapon; //Поле может быть null
+
+    @ManyToOne
+    @JoinColumn(name = "ship_id")
+    private SpaceShip ship;
 
     @XmlElement
     @ManyToOne(cascade = CascadeType.ALL)

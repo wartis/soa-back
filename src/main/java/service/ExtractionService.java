@@ -8,15 +8,13 @@ import service.dto.GetAllMethodParams;
 import service.dto.PaginationParams;
 import service.dto.SortingParams;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class ExtractionService {
 
-    public String extractNameSubstring(HttpServletRequest request) throws WrongRequestException {
+    public String extractNameSubstring(MultivaluedMap<String, String> map) throws WrongRequestException {
         final Messages messages = new Messages();
 
-        final Map<String, String[]> map = request.getParameterMap();
 
         if (map.size() > 1) {
             messages.addNewMessage("Запрос поддерживает только входной параметр nameSubstr");
@@ -28,11 +26,11 @@ public class ExtractionService {
             throw new WrongRequestException(messages);
         }
 
-        return map.get("nameSubstr")[0];
+        return map.get("nameSubstr").get(0);
     }
 
 
-    public GetAllMethodParams extractParams(HttpServletRequest request) throws WrongRequestException {
+    public GetAllMethodParams extractParams(MultivaluedMap<String, String> paramsMap) throws WrongRequestException {
         final Messages messages = new Messages();
 
         final GetAllMethodParams params = new GetAllMethodParams();
@@ -42,13 +40,13 @@ public class ExtractionService {
         params.getSortingParams().setMessages(messages);
 
 
-        request.getParameterMap().forEach((key, value) -> {
+        paramsMap.forEach((key, value) -> {
             if (FiltrationParams.FILTRATION_PARAMS.contains(key)) {
-                params.getFiltrationParams().setParam(key, value[0]);
+                params.getFiltrationParams().setParam(key, value.get(0));
             } else if (SortingParams.SORT_PARAMS.contains(key)) {
-                params.getSortingParams().setParam(key, value[0]);
+                params.getSortingParams().setParam(key, value.get(0));
             } else if (PaginationParams.PAGINATION_PARAMS.contains(key)) {
-                params.getPaginationParams().setParam(key, value[0]);
+                params.getPaginationParams().setParam(key, value.get(0));
             } else {
                 messages.addNewMessage("Указан несуществующий параметр (" + key + ")");
             }
@@ -61,10 +59,10 @@ public class ExtractionService {
         return params;
     }
 
-    public Weapon extractWeaponTypeFromParam(HttpServletRequest request) throws WrongRequestException {
-        final Messages messages = new Messages();
 
-        final Map<String, String[]> map = request.getParameterMap();
+
+    public Weapon extractWeaponTypeFromParam(MultivaluedMap<String, String> map) throws WrongRequestException {
+        final Messages messages = new Messages();
 
         if (map.size() > 1) {
             messages.addNewMessage("Запрос поддерживает только входной параметр weaponType");
@@ -76,7 +74,7 @@ public class ExtractionService {
             throw new WrongRequestException(messages);
         }
 
-        final String weaponTypeStr = map.get("weaponType")[0];
+        final String weaponTypeStr = map.get("weaponType").get(0);
         try {
             final Weapon weapon = Weapon.valueOf(weaponTypeStr);
             if (weapon == Weapon.NONE) throw new Exception();

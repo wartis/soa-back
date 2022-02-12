@@ -6,8 +6,11 @@ import model.SpaceMarine;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
+
+@XmlRootElement
 @Getter
 @Setter
 public class Marines {
