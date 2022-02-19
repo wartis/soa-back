@@ -7,7 +7,6 @@ import model.rawDto.SpaceMarineRaw;
 import model.xmlLists.ChaptersInGroup;
 import model.xmlLists.Marines;
 import model.xmlLists.Messages;
-import org.postgresql.util.PSQLException;
 import service.ExtractionService;
 import service.SpaceMarineService;
 import service.dto.ChapterInGroupElementDto;
@@ -33,7 +32,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Path("/spacemarines2")
+@Path("/spacemarines")
 @Produces(MediaType.APPLICATION_XML)
 @Consumes(MediaType.APPLICATION_XML)
 public class SpaceMarineResource {
