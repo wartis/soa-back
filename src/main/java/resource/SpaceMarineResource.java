@@ -23,6 +23,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -55,26 +56,28 @@ public class SpaceMarineResource {
 
     @GET
     @Path("/name/substr")
-    public Response getSpacemarinesByNameSubstring(@Context UriInfo uriInfo) {
-        try {
-            final String substr   = extractionService.extractNameSubstring(uriInfo.getQueryParameters());
-            final Marines marines = spaceMarineService.getAllByNameSubstring(substr);
+    public Response getSpacemarinesByNameSubstring(@QueryParam("nameSubstr") String nameSubstr) {
+        if (nameSubstr == null) {
+            final Messages messages = new Messages();
+            messages.addNewMessage("nameSubstr - это обязательный параметр");
 
-            return Response.status(Response.Status.OK)
-                    .entity(marines)
-                    .build();
-        } catch (WrongRequestException ex) {
             return Response.status(Response.Status.BAD_REQUEST)
-                    .entity(ex.getErrors())
-                    .build();
+                .entity(messages)
+                .build();
         }
+
+        final Marines marines = spaceMarineService.getAllByNameSubstring(nameSubstr);
+
+        return Response.status(Response.Status.OK)
+                .entity(marines)
+                .build();
     }
 
     @GET
     @Path("/weaponType/superior-group")
-    public Response getSpacemarinesBySuperiorGroup(@Context UriInfo uriInfo) {
+    public Response getSpacemarinesBySuperiorGroup(@QueryParam("weaponType") String weaponTypeString) {
         try {
-            final Weapon weaponType = extractionService.extractWeaponTypeFromParam(uriInfo.getQueryParameters());
+            final Weapon weaponType = extractionService.extractWeaponTypeFromParam(weaponTypeString);
             final Marines marines = spaceMarineService.getAllByWeaponType(weaponType);
 
             return Response.status(Response.Status.OK)
@@ -161,7 +164,6 @@ public class SpaceMarineResource {
             SpaceMarine spaceMarine = spaceMarineRaw.toEntity();
             spaceMarine = spaceMarineService.update(marineId, spaceMarine);
 
-            //todo переписать
             if (spaceMarine != null) {
                 return Response.status(Response.Status.NO_CONTENT).build();
             } else {

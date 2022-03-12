@@ -1,7 +1,6 @@
 package dao;
 
 import model.SpaceMarine;
-import model.SpaceShip;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -24,18 +23,7 @@ public class SpaceMarineDAO {
         }
     }
 
-    public Optional<SpaceShip> getSpaceShip(final Long id) {
-        try (final Session session = HibernateUtil.getSessionFactory().openSession()) {
-            final Transaction transaction = session.beginTransaction();
-            final SpaceShip spaceShip = session.find(SpaceShip.class, id);
-            transaction.commit();
 
-            return Optional.ofNullable(spaceShip);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
-    }
 
     public List<SpaceMarine> getAllSpaceMarines() {
         Transaction transaction = null;

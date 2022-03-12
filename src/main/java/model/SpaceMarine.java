@@ -78,10 +78,6 @@ public class SpaceMarine {
     @Column(name = "melee_weapon")
     private MeleeWeapon meleeWeapon; //Поле может быть null
 
-    @ManyToOne
-    @JoinColumn(name = "ship_id")
-    private SpaceShip ship;
-
     @XmlElement
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "chapter_id")

@@ -5,7 +5,6 @@ import dao.SpaceMarineDAO;
 import exceptions.WrongRequestException;
 import model.Chapter;
 import model.SpaceMarine;
-import model.SpaceShip;
 import model.Weapon;
 import model.xmlLists.Marines;
 import model.xmlLists.Messages;
@@ -93,13 +92,6 @@ public class SpaceMarineService {
             throw new WrongRequestException(optionalMessage.get());
         }
 
-
-        if (spaceMarine.getShip() != null && spaceMarine.getShip().getId() != null) {
-            final Optional<SpaceShip> spaceShip = spaceMarineDao.getSpaceShip(spaceMarine.getShip().getId());
-            Messages messages = new Messages();
-            messages.addNewMessage("Не существует корабля с указанным id");
-            spaceShip.orElseThrow(() -> new WrongRequestException(messages));
-        }
         final Optional<SpaceMarine> spaceMarineFromDb = spaceMarineDao.getSpaceMarine(spaceMarine.getId());
 
         if (spaceMarineFromDb.isPresent()) {

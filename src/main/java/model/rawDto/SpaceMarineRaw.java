@@ -8,7 +8,6 @@ import model.Chapter;
 import model.Coordinates;
 import model.MeleeWeapon;
 import model.SpaceMarine;
-import model.SpaceShip;
 import model.Weapon;
 import model.xmlLists.Messages;
 
@@ -48,8 +47,6 @@ public class SpaceMarineRaw {
     @XmlElement
     private ChapterRaw chapter; //Поле может быть null
 
-    @XmlElement
-    private SpaceShipRaw ship;
 
     public SpaceMarine toEntity() throws WrongRequestException {
         //господи, какой же это говнокод
@@ -64,21 +61,6 @@ public class SpaceMarineRaw {
         } catch (Exception ex) {
             messages.addNewMessage("Поле id должно быть целым числом.");
         }
-
-        try {
-
-            if (ship == null || (ship.getId() == null && ship.getName() == null)) {
-                spaceMarine.setShip(null);
-            } else {
-
-                final SpaceShip spaceShip = new SpaceShip();
-                spaceShip.setId(Long.valueOf(ship.getId()));
-                spaceMarine.setShip(spaceShip);
-            }
-        } catch (Exception exception) {
-            messages.addNewMessage("Был передан невалидный корабль! Поле id должно быть целым числом!");
-        }
-
 
         try {
             if (health != null) {

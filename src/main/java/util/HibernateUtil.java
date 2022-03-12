@@ -3,7 +3,6 @@ package util;
 import model.Chapter;
 import model.Coordinates;
 import model.SpaceMarine;
-import model.SpaceShip;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -38,7 +37,6 @@ public class HibernateUtil {
 
                 configuration.setProperties(settings);
 
-                configuration.addAnnotatedClass(SpaceShip.class);
                 configuration.addAnnotatedClass(SpaceMarine.class);
                 configuration.addAnnotatedClass(Coordinates.class);
                 configuration.addAnnotatedClass(Chapter.class);

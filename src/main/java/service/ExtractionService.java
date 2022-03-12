@@ -61,20 +61,15 @@ public class ExtractionService {
 
 
 
-    public Weapon extractWeaponTypeFromParam(MultivaluedMap<String, String> map) throws WrongRequestException {
+    public Weapon extractWeaponTypeFromParam(String weaponType) throws WrongRequestException {
         final Messages messages = new Messages();
 
-        if (map.size() > 1) {
-            messages.addNewMessage("Запрос поддерживает только входной параметр weaponType");
-            throw new WrongRequestException(messages);
-        }
-
-        if (map.size() == 0 || !map.containsKey("weaponType")) {
+        if (weaponType == null) {
             messages.addNewMessage("Запрос обязательно должен содержать параметр weaponType");
             throw new WrongRequestException(messages);
         }
 
-        final String weaponTypeStr = map.get("weaponType").get(0);
+        final String weaponTypeStr = weaponType;
         try {
             final Weapon weapon = Weapon.valueOf(weaponTypeStr);
             if (weapon == Weapon.NONE) throw new Exception();
