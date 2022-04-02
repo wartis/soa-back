@@ -1,4 +1,4 @@
-package service;
+package service.ancillary;
 
 import model.SpaceMarine;
 import model.xmlLists.Messages;
@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class ValidationService {
 
-    Optional<Messages> checkSpaceMarine(SpaceMarine spaceMarine) {
+    public Optional<Messages> checkSpaceMarine(SpaceMarine spaceMarine) {
         final Messages messages = new Messages();
 
         if (spaceMarine.getName() == null) {
@@ -62,7 +62,7 @@ public class ValidationService {
         return Optional.of(messages);
     }
 
-    Optional<Messages> validatePaginationParams(PageDto pageDto) {
+    public Optional<Messages> validatePaginationParams(PageDto pageDto) {
         final Messages messages = new Messages();
 
         if (pageDto.getCurPage() <= 0) {

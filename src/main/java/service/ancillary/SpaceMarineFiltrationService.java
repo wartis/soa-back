@@ -1,9 +1,9 @@
-package service;
+package service.ancillary;
 
-import model.AstartesCategory;
-import model.MeleeWeapon;
+import model.enums.AstartesCategory;
+import model.enums.MeleeWeapon;
 import model.SpaceMarine;
-import model.Weapon;
+import model.enums.Weapon;
 import service.dto.FiltrationParams;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class FilterSpaceMarineService {
+public class SpaceMarineFiltrationService {
 
     public List<SpaceMarine> handleFiltration(List<SpaceMarine> marines, FiltrationParams params) {
         final Stream<SpaceMarine> spaceMarineStream = marines.stream()

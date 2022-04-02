@@ -2,12 +2,12 @@ package resource;
 
 import exceptions.WrongRequestException;
 import model.SpaceMarine;
-import model.Weapon;
+import model.enums.Weapon;
 import model.rawDto.SpaceMarineRaw;
 import model.xmlLists.ChaptersInGroup;
 import model.xmlLists.Marines;
 import model.xmlLists.Messages;
-import service.ExtractionService;
+import service.ancillary.ExtractionService;
 import service.SpaceMarineService;
 import service.dto.ChapterInGroupElementDto;
 import service.dto.GetAllMethodParams;
@@ -200,6 +200,5 @@ public class SpaceMarineResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-
 }
 

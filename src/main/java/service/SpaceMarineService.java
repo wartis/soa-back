@@ -5,9 +5,13 @@ import dao.SpaceMarineDAO;
 import exceptions.WrongRequestException;
 import model.Chapter;
 import model.SpaceMarine;
-import model.Weapon;
+import model.enums.Weapon;
 import model.xmlLists.Marines;
 import model.xmlLists.Messages;
+import service.ancillary.PaginationService;
+import service.ancillary.SortSpaceMarineService;
+import service.ancillary.SpaceMarineFiltrationService;
+import service.ancillary.ValidationService;
 import service.dto.ChapterInGroupElementDto;
 import service.dto.GetAllMethodParams;
 import service.dto.PageDto;
@@ -21,7 +25,7 @@ public class SpaceMarineService {
 
     private final SpaceMarineDAO spaceMarineDao = new SpaceMarineDAO();
     private final ChapterDAO chapterDAO = new ChapterDAO();
-    private final FilterSpaceMarineService filterService = new FilterSpaceMarineService();
+    private final SpaceMarineFiltrationService filterService = new SpaceMarineFiltrationService();
     private final SortSpaceMarineService sortService = new SortSpaceMarineService();
     private final PaginationService paginationService = new PaginationService();
     private final ValidationService validationService = new ValidationService();
@@ -120,8 +124,6 @@ public class SpaceMarineService {
     }
 
     public boolean delete(Long id) {
-        //не самое лучшее решение, но spaceMarineDao.deleteSpaceMarine(id) падает если нет id, а не возвращает false
-        //почему не ясно и времени разбираться нет(
         if (spaceMarineDao.getSpaceMarine(id).isPresent()) {
             return spaceMarineDao.deleteSpaceMarine(id);
         }

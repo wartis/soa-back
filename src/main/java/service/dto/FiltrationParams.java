@@ -2,9 +2,9 @@ package service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import model.AstartesCategory;
-import model.MeleeWeapon;
-import model.Weapon;
+import model.enums.AstartesCategory;
+import model.enums.MeleeWeapon;
+import model.enums.Weapon;
 import model.xmlLists.Messages;
 
 import java.util.Arrays;

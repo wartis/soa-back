@@ -3,7 +3,11 @@ package model;
 
 import lombok.Getter;
 import lombok.Setter;
+import model.enums.AstartesCategory;
+import model.enums.MeleeWeapon;
+import model.enums.Weapon;
 import org.hibernate.annotations.CreationTimestamp;
+import util.LocalDateTimeAdapter;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -18,14 +22,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "SpaceMarine")
@@ -55,6 +58,8 @@ public class SpaceMarine {
     })
     private Coordinates coordinates;
 
+    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     @CreationTimestamp
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate = LocalDateTime.now(); //Поле не может быть null, Значение этого поля должно генерироваться автоматически

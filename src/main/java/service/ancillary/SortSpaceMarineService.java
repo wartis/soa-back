@@ -1,4 +1,4 @@
-package service;
+package service.ancillary;
 
 import model.SpaceMarine;
 import service.dto.SortOrderEnum;
@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 public class SortSpaceMarineService {
 
-    //ужасный метод, но делает так чтобы  null всегда был в конце листа
     public List<SpaceMarine> handleSorting(List<SpaceMarine> spaceMarines, SortingParams params) {
         final List<SpaceMarine> notNullValues = spaceMarines.stream()
             .filter(params.getSortType().notNull)

@@ -1,7 +1,7 @@
-package service;
+package service.ancillary;
 
 import exceptions.WrongRequestException;
-import model.Weapon;
+import model.enums.Weapon;
 import model.xmlLists.Messages;
 import service.dto.FiltrationParams;
 import service.dto.GetAllMethodParams;
@@ -11,24 +11,6 @@ import service.dto.SortingParams;
 import javax.ws.rs.core.MultivaluedMap;
 
 public class ExtractionService {
-
-    public String extractNameSubstring(MultivaluedMap<String, String> map) throws WrongRequestException {
-        final Messages messages = new Messages();
-
-
-        if (map.size() > 1) {
-            messages.addNewMessage("Запрос поддерживает только входной параметр nameSubstr");
-            throw new WrongRequestException(messages);
-        }
-
-        if (map.size() == 0 || !map.containsKey("nameSubstr")) {
-            messages.addNewMessage("Запрос обязательно должен содержать параметр nameSubstr");
-            throw new WrongRequestException(messages);
-        }
-
-        return map.get("nameSubstr").get(0);
-    }
-
 
     public GetAllMethodParams extractParams(MultivaluedMap<String, String> paramsMap) throws WrongRequestException {
         final Messages messages = new Messages();

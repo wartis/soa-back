@@ -1,4 +1,4 @@
-package service;
+package service.ancillary;
 
 import exceptions.WrongRequestException;
 import lombok.RequiredArgsConstructor;

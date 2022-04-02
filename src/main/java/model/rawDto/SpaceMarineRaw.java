@@ -3,12 +3,12 @@ package model.rawDto;
 import exceptions.WrongRequestException;
 import lombok.Getter;
 import lombok.Setter;
-import model.AstartesCategory;
+import model.enums.AstartesCategory;
 import model.Chapter;
 import model.Coordinates;
-import model.MeleeWeapon;
+import model.enums.MeleeWeapon;
 import model.SpaceMarine;
-import model.Weapon;
+import model.enums.Weapon;
 import model.xmlLists.Messages;
 
 import javax.xml.bind.annotation.XmlAccessType;
